@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Método Evolutiva® — Estruture. Capacite. Evolua.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:  #000000;
+      --white:  #FFFFFF;
+      --gray:   #BDBDBD;
+      --gold:   #D4A64A;
+      --gold-dim: rgba(212,166,74,.12);
+      --gold-glow: rgba(212,166,74,.25);
+      --border: rgba(255,255,255,.08);
+      --border-gold: rgba(212,166,74,.35);
+      --surface: rgba(255,255,255,.03);
+      --surface-hover: rgba(255,255,255,.06);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --font: 'Inter', sans-serif;
+      --transition: .3s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font-family: var(--font); cursor: pointer; border: none; outline: none; }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.08; letter-spacing: -.03em; }
+    .h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.12; letter-spacing: -.025em; }
+    .h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 600; line-height: 1.3; letter-spacing: -.015em; }
+    .body-lg { font-size: clamp(.95rem, 1.5vw, 1.1rem); font-weight: 400; line-height: 1.65; color: var(--gray); }
+    .body-sm { font-size: .875rem; line-height: 1.6; color: var(--gray); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 120px 0; position: relative; }
+
+    /* ── GRID BACKGROUND ── */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 8px;
+      font-size: .9rem; font-weight: 600; letter-spacing: .01em;
+      transition: var(--transition); white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--black);
+      box-shadow: 0 0 24px var(--gold-glow);
+    }
+    .btn-primary:hover {
+      background: #e8b955;
+      box-shadow: 0 0 40px rgba(212,166,74,.45);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255,255,255,.2);
+      transform: translateY(-1px);
+    }
+    .btn-outline-gold {
+      background: transparent; color: var(--gold);
+      border: 1px solid var(--border-gold);
+    }
+    .btn-outline-gold:hover {
+      background: var(--gold-dim);
+      box-shadow: 0 0 20px var(--gold-glow);
+      transform: translateY(-1px);
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: var(--transition);
+    }
+    .card:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255,255,255,.15);
+      transform: translateY(-3px);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(0,0,0,.8);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px; padding: 0 24px; max-width: 1200px; margin: 0 auto;
+    }
+    
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    .nav-logo-top {
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+    .nav-logo-main {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .nav-logo-sub {
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .875rem; font-weight: 500; color: var(--gray);
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; padding: 4px; cursor: pointer;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 0 100px;
+      overflow: hidden;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 100px;
+      background: var(--gold-dim); border: 1px solid var(--border-gold);
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      animation: pulse 2s infinite;
+    }
+    @sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .6; transform: scale(.85); }
+    }
+    .hero-title { margin-bottom: 24px; font-weight: 800; }
+    .hero-title .highlight { color: var(--gold); font-weight: 700; }
+    .hero-sub { max-width: 540px; margin-bottom: 40px; }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+    .hero-visual {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      height: 520px; width: 100%;
+    }
+    .visual-orbit {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.05);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .visual-orbit-1 { width: 300px; height: 300px; animation: spinOrbit 30s linear infinite; }
+    .visual-orbit-2 { width: 440px; height: 440px; animation: spinOrbit 50s linear infinite reverse; }
+    .visual-orbit-3 { width: 580px; height: 580px; animation: spinOrbit 80s linear infinite; }
+    
+    @keyframes spinOrbit { 
+      from { transform: rotate(0deg); } 
+      to { transform: rotate(360deg); } 
+    }
+
+    .visual-node {
+      position: absolute; background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--gold);
+    }
+    
+    .hero-visual-card {
+      position: absolute;
+      background: rgba(10, 10, 10, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 18px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 10;
+      transition: border-color 0.4s ease, transform 0.4s ease;
+    }
+    .hero-visual-card:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-2px);
+    }
+    .hero-visual-card .card-lbl {
+      font-size: 8px;
+      color: var(--gray);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+    .hero-visual-card .card-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    
+    .card-pipeline {
+      top: 22%; left: 10%;
+      border-color: var(--border-gold);
+    }
+    .card-pipeline .card-lbl {
+      color: var(--gold);
+    }
+    .card-playbook {
+      top: 62%; left: 2%;
+    }
+    .card-playbook .card-val {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-playbook .card-val::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: #FFFFFF;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .card-conversion {
+      bottom: 5%; right: 5%;
+    }
+    .card-conversion .card-val span {
+      color: #4ade80;
+      font-size: 11px;
+      margin-left: 2px;
+    }
+
+    .visual-core {
+      position: relative; z-index: 5;
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(212,166,74,.15) 0%, rgba(10,10,10,0.95) 80%);
+      border: 1px solid var(--border-gold);
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      box-shadow: 0 0 35px rgba(212, 166, 74, 0.15);
+    }
+    .visual-core-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+    .visual-core-symbol { font-size: 18px; font-weight: 400; color: var(--gold); }
+    .visual-core-sub { font-size: 9px; color: var(--gray); font-weight: 400; }
+
+    /* ── SECTION HEADER ── */
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-header .label { margin-bottom: 16px; display: block; }
+    .section-header .h2 { margin-bottom: 20px; }
+    .section-header .body-lg { max-width: 560px; margin: 0 auto; }
+
+    /* ── DESAFIOS ── */
+    .challenges-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .challenge-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .challenge-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .challenge-card:hover { background: var(--surface-hover); border-color: var(--border-gold); }
+    .challenge-card:hover::before { opacity: 1; }
+    .challenge-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--gold-dim); border: 1px solid var(--border-gold);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; font-size: 18px;
+    }
+    .challenge-card .h3 { font-size: .95rem; margin-bottom: 8px; }
+    .challenge-card .body-sm { font-size: .82rem; }
+
+    .method-flow {
+      display: flex; align-items: flex-start; gap: 0; position: relative;
+      margin-top: 64px;
+    }
+    .method-flow::before {
+      content: '';
+      position: absolute; top: 28px; left: 10%; right: 10%;
+      height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .method-step {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 0 16px; position: relative;
+    }
+    .method-step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; letter-spacing: .05em;
+      position: relative; z-index: 2; margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .method-step-num.active {
+      background: var(--gold); color: var(--black);
+      box-shadow: 0 0 24px var(--gold-glow);
+    }
+    .method-step-num.inactive {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--gray);
+    }
+    .method-step-title { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .method-step-desc { font-size: .82rem; color: var(--gray); line-height: 1.55; }
+
+    .interactive-pillar {
+      display: flex; align-items: center; gap: 10px; padding: 12px 20px;
+      border-radius: 8px; background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.3s cubic-bezier(.4,0,.2,1);
+      user-select: none;
+    }
+    .interactive-pillar:hover, .interactive-pillar.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black);
+      box-shadow: 0 0 24px var(--gold-glow);
+      transform: translateY(-1px);
+    }
+    .interactive-pillar:hover span, .interactive-pillar.active span {
+      color: var(--black) !important;
+    }
+
+    .solucoes-container {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+      margin-top: 64px;
+    }
+    .solucao-section-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.03) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .solucao-section-card:hover {
+      border-color: rgba(255,255,255,0.15);
+      background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.04) 100%);
+    }
+    .solucao-section-card-active {
+      border-color: var(--border-gold);
+    }
+    .solucao-section-card .solucao-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      color: var(--gold);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .solucao-header-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .solucao-badge-main {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .solucao-block-name {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .solucao-block-desc {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--gray);
+      margin-bottom: 24px;
+    }
+    .solucao-quick-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 20px;
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .spec-item-title {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .spec-item-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .solucao-actions-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      align-items: center;
+    }
+    
+    /* Dropdown/Drawer Details Styles */
+    .solucao-details-drawer {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, padding 0.4s ease;
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      margin-top: 0;
+      padding: 0 32px;
+    }
+    .solucao-details-drawer.open {
+      max-height: 2000px;
+      padding: 32px;
+      margin-top: 32px;
+      border: 1px solid rgba(255,255,255,0.05);
+      opacity: 1;
+    }
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 48px;
+    }
+    .drawer-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .drawer-content-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .drawer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .drawer-list li {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .drawer-list-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .drawer-list-desc {
+      font-size: 0.82rem;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+    .drawer-sub-bullets {
+      list-style: none;
+      padding-left: 12px;
+      margin-top: 8px;
+    }
+    .drawer-sub-bullets li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    .drawer-sub-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+
+    /* ── IA MODULE ── */
+    .ia-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .ia-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0; }
+    .ia-tag {
+      padding: 8px 16px; border-radius: 100px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-size: .8rem; font-weight: 500; color: var(--gray);
+      transition: var(--transition);
+    }
+    .ia-tag:hover {
+      background: var(--gold-dim); border-color: var(--border-gold);
+      color: var(--gold);
+    }
+    .ia-visual {
+      position: relative; height: 420px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ia-card-anim {
+      position: absolute; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; font-size: .78rem; color: var(--gray);
+      display: flex; align-items: center; gap: 10px;
+      backdrop-filter: blur(12px); white-space: nowrap;
+    }
+    .ia-card-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ia-card-1 { top: 20px; left: 0; animation: float1 6s ease-in-out infinite; border-color: var(--border-gold); }
+    .ia-card-2 { top: 120px; right: 0; animation: float2 7s ease-in-out infinite; }
+    .ia-card-3 { bottom: 120px; left: 20px; animation: float3 5s ease-in-out infinite; }
+    .ia-card-4 { bottom: 30px; right: 20px; animation: float2 8s ease-in-out infinite 1s; }
+    .ia-card-5 { top: 50%; left: 50%; transform: translate(-50%,-50%); animation: float1 9s ease-in-out infinite .5s; }
+    @keyframes float1 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes float2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+    @keyframes float3 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+    /* ── TECH SECTION ── */
+    .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .tech-logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .tech-logo-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 20px;
+      text-align: center; transition: var(--transition);
+    }
+    .tech-logo-card:hover { background: var(--surface-hover); border-color: var(--border-gold); }
+    .tech-logo-name { font-size: .875rem; font-weight: 600; margin-top: 10px; }
+    .tech-logo-sub { font-size: .7rem; color: var(--gray); margin-top: 4px; }
+    .tech-logo-icon { font-size: 2rem; line-height: 1; }
+    .tech-steps { display: flex; flex-direction: column; gap: 24px; }
+    .tech-step { display: flex; gap: 20px; align-items: flex-start; }
+    .tech-step-num {
+      width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+      background: var(--gold-dim); border: 1px solid var(--border-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; color: var(--gold);
+    }
+    .tech-step-title { font-size: .95rem; font-weight: 600; margin-bottom: 6px; }
+    .tech-step-desc { font-size: .82rem; color: var(--gray); line-height: 1.55; }
+
+    /* ── RESULTS ── */
+    .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .result-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 24px;
+      text-align: center; transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .result-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0); transition: transform var(--transition);
+    }
+    .result-card:hover { transform: translateY(-3px); border-color: var(--border-gold); }
+    .result-card:hover::after { transform: scaleX(1); }
+    .result-icon { font-size: 2rem; margin-bottom: 16px; }
+    .result-title { font-size: .95rem; font-weight: 600; margin-bottom: 8px; }
+    .result-desc { font-size: .8rem; color: var(--gray); line-height: 1.55; }
+
+    /* ── FOR WHOM ── */
+    .whom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .whom-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 24px;
+      transition: var(--transition); display: flex; align-items: flex-start; gap: 16px;
+    }
+    .whom-card:hover { background: var(--surface-hover); border-color: var(--border-gold); }
+    .whom-icon {
+      width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px;
+      background: var(--gold-dim); border: 1px solid var(--border-gold);
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .whom-title { font-size: .95rem; font-weight: 600; margin-bottom: 6px; }
+    .whom-desc { font-size: .82rem; color: var(--gray); line-height: 1.55; }
+
+    .creator-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 64px;
+      align-items: flex-start;
+    }
+    .specialty-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .specialty-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+    .specialty-item::before {
+      content: '✔';
+      color: var(--gold);
+      font-weight: bold;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .philosophy-quote {
+      padding: 32px;
+      background: var(--surface);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      position: relative;
+    }
+    .philosophy-quote-symbol {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 4rem;
+      font-family: serif;
+      color: var(--border-gold);
+      opacity: 0.3;
+      line-height: 1;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; transition: border-color var(--transition);
+    }
+    .faq-item.open { border-color: var(--border-gold); }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px; cursor: pointer;
+      font-size: .95rem; font-weight: 600; gap: 16px;
+    }
+    .faq-icon {
+      width: 24px; height: 24px; flex-shrink: 0;
+      border-radius: 50%; background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; color: var(--gold); transition: transform var(--transition);
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s ease;
+      padding: 0 28px; color: var(--gray); font-size: .875rem; line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 600px; padding-bottom: 24px; }
+
+    /* ── CTA FINAL ── */
+    #cta-final {
+      text-align: center; padding: 140px 0;
+      position: relative; overflow: hidden;
+    }
+    #cta-final::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,166,74,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 100px;
+      background: var(--gold-dim); border: 1px solid var(--border-gold);
+      margin-bottom: 28px;
+    }
+    .cta-title { margin-bottom: 20px; }
+    .cta-sub { max-width: 520px; margin: 0 auto 48px; }
+    .cta-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .cta-note { margin-top: 24px; font-size: .8rem; color: var(--gray); opacity: .7; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 64px 0 40px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    
+    .footer-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    .footer-logo-main {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .footer-logo-main span {
+      color: var(--gold);
+    }
+    .footer-logo-by {
+      font-size: 7px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gray);
+      opacity: .6;
+      margin-top: 4px;
+    }
+
+    .footer-tagline { font-size: .82rem; color: var(--gray); margin-top: 16px; line-height: 1.55; max-width: 260px; }
+    .footer-col-title { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin-bottom: 20px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: .875rem; color: var(--gray); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 32px; border-top: 1px solid var(--border);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-copy { font-size: .8rem; color: var(--gray); opacity: .6; }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: .8rem; color: var(--gray); opacity: .6; transition: opacity var(--transition); }
+    .footer-legal a:hover { opacity: 1; }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 24px;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      section { padding: 80px 0; }
+      .nav-links, .nav-cta .btn-ghost { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { height: 400px; }
+      .visual-orbit-2, .visual-orbit-3 { display: none; }
+      .challenges-grid { grid-template-columns: repeat(2, 1fr); }
+      .solucoes-container { gap: 40px; }
+      .solucao-header-grid { grid-template-columns: 1fr; gap: 24px; }
+      .drawer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .ia-grid, .tech-grid { grid-template-columns: 1fr; gap: 48px; }
+      .ia-visual { height: 280px; }
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
+      .whom-grid { grid-template-columns: repeat(2, 1fr); }
+      .creator-grid { grid-template-columns: 1fr; gap: 48px; }
+      .specialty-list { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .method-flow { flex-direction: column; gap: 32px; }
+      .method-flow::before { display: none; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .card-pipeline { top: 10%; left: 5%; }
+      .card-playbook { top: 50%; left: -2%; }
+      .card-conversion { bottom: 5%; right: 0%; }
+    }
+    @media (max-width: 560px) {
+      .challenges-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .whom-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .tech-logos { grid-template-columns: repeat(2, 1fr); }
+      .solucao-quick-specs { grid-template-columns: 1fr; }
+      .solucao-actions-row { flex-direction: column; align-items: stretch; }
+      .solucao-actions-row .btn { justify-content: center; }
+    }
+
+    /* ── MOBILE NAV MENU ── */
+    .mobile-menu {
+      position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,.97); z-index: 99;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 32px; opacity: 0; pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-size: 1.5rem; font-weight: 600; color: var(--white); }
+    .mobile-menu a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-top">M É T O D O</div>
+      <div class="nav-logo-main">EVOLUTIVA<span>®</span></div>
+      <div class="nav-logo-sub">by Traevo</div>
+    </a>
+    
+    <ul class="nav-links">
+      <li><a href="#desafios">Desafios</a></li>
+      <li><a href="#metodo">O Método</a></li>
+      <li><a href="#solucoes">Soluções</a></li>
+      <li><a href="#ia">IA Comercial</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+
+    <div class="nav-cta">
+      <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20um%20especialista%20do%20M%C3%A9todo%20Evolutiva." target="_blank" class="btn btn-primary" style="padding:10px 20px;font-size:.85rem;">Falar com Especialista</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#desafios" onclick="toggleMenu()">Desafios</a>
+  <a href="#metodo" onclick="toggleMenu()">O Método</a>
+  <a href="#solucoes" onclick="toggleMenu()">Soluções</a>
+  <a href="#ia" onclick="toggleMenu()">IA Comercial</a>
+  <a href="#faq" onclick="toggleMenu()">FAQ</a>
+  <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20um%20especialista%20do%20M%C3%A9todo%20Evolutiva." target="_blank" class="btn btn-primary" onclick="toggleMenu()">Falar com Especialista</a>
+</div>
+
+<section id="hero" class="grid-bg">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge reveal">
+          <div class="hero-badge-dot"></div>
+          <span class="label" style="font-size:.7rem;">Transformação Comercial B2B</span>
+        </div>
+        
+        <h1 class="h1 hero-title reveal">
+          Sua operação comercial<br/>não precisa de<br/>mais esforço.<br/>
+          <span class="highlight">Precisa de método.</span>
+        </h1>
+        
+        <p class="body-lg hero-sub reveal">
+          Estruturamos processos, capacitamos equipes e implementamos inteligência comercial para transformar vendas em uma operação previsível e escalável.
+        </p>
+        
+        <div class="hero-actions reveal">
+          <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20comercial%20do%20M%C3%A9todo%20Evolutiva." target="_blank" class="btn btn-primary">
+            Solicitar Diagnóstico
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="visual-orbit visual-orbit-1">
+          <div class="visual-node" style="width:6px;height:6px;top:15%;left:15%;"></div>
+        </div>
+        <div class="visual-orbit visual-orbit-2">
+          <div class="visual-node" style="width:5px;height:5px;top:40%;left:5%;"></div>
+          <div class="visual-node" style="width:5px;height:5px;bottom:30%;right:10%;"></div>
+        </div>
+        <div class="visual-orbit visual-orbit-3">
+          <div class="visual-node" style="width:4px;height:4px;top:10%;right:25%;"></div>
+          <div class="visual-node" style="width:4px;height:4px;bottom:10%;left:25%;"></div>
+        </div>
+
+        <div class="hero-visual-card card-pipeline">
+          <div class="card-lbl">Pipeline</div>
+          <div class="card-val">R$ 2.4M</div>
+        </div>
+        
+        <div class="hero-visual-card card-playbook">
+          <div class="card-lbl">Playbook</div>
+          <div class="card-val">Ativo</div>
+        </div>
+        
+        <div class="hero-visual-card card-conversion">
+          <div class="card-lbl">Conversão</div>
+          <div class="card-val">+38% <span>↑</span></div>
+        </div>
+
+        <div class="visual-core">
+          <div class="visual-core-label">Evolutiva</div>
+          <div class="visual-core-value" style="color:var(--gold);">®</div>
+          <div style="font-size:.6rem;color:var(--gray);margin-top:4px;letter-spacing:.05em;">Método</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="desafios">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Diagnóstico</span>
+      <h2 class="h2">Sua operação comercial<br/>enfrenta algum desses desafios?</h2>
+      <p class="body-lg">Se você se identificou com pelo menos um deles, a Evolutiva foi feita para você.</p>
+    </div>
+    <div class="challenges-grid">
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">📉</div>
+        <div class="h3">Falta previsibilidade de vendas</div>
+        <p class="body-sm">Receita instável, sem padrão mensal de resultados e metas constantemente frustradas.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">🗄️</div>
+        <div class="h3">CRM subutilizado</div>
+        <p class="body-sm">A ferramenta existe, mas a equipe não usa ou usa de forma inconsistente.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">🔀</div>
+        <div class="h3">Sem padrão de execução</div>
+        <p class="body-sm">Cada vendedor vende do seu jeito. Não há processo, não há playbook, não há padrão.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">👤</div>
+        <div class="h3">Dependência de vendedores-chave</div>
+        <p class="body-sm">Sem o top performer, os resultados despencam. A operação depende de pessoas, não de método.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">⚖️</div>
+        <div class="h3">Baixa conversão</div>
+        <p class="body-sm">Muitas oportunidades entram, poucas se convertem. O funil vaza em algum ponto crítico.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">🔍</div>
+        <div class="h3">Falta de Indicadores Claros</div>
+        <p class="body-sm">Dificuldade estrutural para mapear as taxas de conversão reais e medir a saúde de cada funil.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">🚨</div>
+        <div class="h3">Ausência de Rotinas Comerciais</div>
+        <p class="body-sm">Gestores que não conseguem acompanhar de perto ou desenvolver a performance do time por falta de práticas estruturadas.</p>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-icon">🧭</div>
+        <div class="h3">Liderança sem método</div>
+        <p class="body-sm">Gestores comerciais apagam incêndios ao invés de desenvolver equipe e gerar resultados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="metodo">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Metodologia Proprietária</span>
+      <h2 class="h2">O Método Evolutiva®</h2>
+      <p class="body-lg">Uma jornada estruturada de transformação comercial baseada em etapas fundamentais de evolução.</p>
+    </div>
+
+    <div class="method-flow">
+      <div class="method-step reveal">
+        <div class="method-step-num inactive" id="step-01">01</div>
+        <div class="method-step-title">Mapear & Diagnosticar</div>
+        <div class="method-step-desc">Identificação profunda das falhas no funil atual, gargalos na conversão e avaliação das competências da equipe de vendas.</div>
+      </div>
+      <div class="method-step reveal">
+        <div class="method-step-num active" id="step-02">02</div>
+        <div class="method-step-title">Estruturar Processos</div>
+        <div class="method-step-desc">Redesenho do funil de vendas, definição das regras de passagem de bastão, criação de playbooks e modelagem do processo de vendas do absoluto zero.</div>
+      </div>
+      <div class="method-step reveal">
+        <div class="method-step-num inactive" id="step-03">03</div>
+        <div class="method-step-title">Habilitar & Treinar</div>
+        <div class="method-step-desc">Transferência prática de conhecimento por meio de capacitação direta para a força de vendas e líderes comerciais.</div>
+      </div>
+      <div class="method-step reveal">
+        <div class="method-step-num inactive" id="step-04">04</div>
+        <div class="method-step-title">Sustentar no CRM</div>
+        <div class="method-step-desc">Configuração, parametrização e automação do processo no CRM para garantir que cada etapa desenhada seja executada no dia a dia.</div>
+      </div>
+      <div class="method-step reveal">
+        <div class="method-step-num inactive" id="step-05">05</div>
+        <div class="method-step-title">Gerir & Evoluir</div>
+        <div class="method-step-desc">Acompanhamento de rotinas, ritos de gestão de indicadores e melhoria contínua das taxas de conversão baseada em dados e Inteligência Artificial.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:64px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);" class="reveal">
+      <div class="interactive-pillar active" onclick="activatePillar(this, 'step-01')">
+        <span style="font-size:1rem;">🎯</span><span style="font-size:.82rem;font-weight:500;color:var(--white);">Estratégia Comercial</span>
+      </div>
+      <div class="interactive-pillar" onclick="activatePillar(this, 'step-02')">
+        <span style="font-size:1rem;">⚙️</span><span style="font-size:.82rem;font-weight:500;color:var(--gray);">Processos & Mapeamento</span>
+      </div>
+      <div class="interactive-pillar" onclick="activatePillar(this, 'step-02')">
+        <span style="font-size:1rem;">📖</span><span style="font-size:.82rem;font-weight:500;color:var(--gray);">Playbooks</span>
+      </div>
+      <div class="interactive-pillar" onclick="activatePillar(this, 'step-03')">
+        <span style="font-size:1rem;">🎓</span><span style="font-size:.82rem;font-weight:500;color:var(--gray);">Capacitação</span>
+      </div>
+      <div class="interactive-pillar" onclick="activatePillar(this, 'step-03')">
+        <span style="font-size:1rem;">🧠</span><span style="font-size:.82rem;font-weight:500;color:var(--gray);">Liderança Comercial</span>
+      </div>
+      <div class="interactive-pillar" onclick="activatePillar(this, 'step-04')">
+        <span style="font-size:1rem;">🖥️</span><span style="font-size:.82rem;font-weight:500;color:var(--gray);">CRM & Tecnologia</span>
+      </div>
+      <div class="interactive-pillar" onclick="activatePillar(this, 'step-05')">
+        <span style="font-size:1rem;">🤖</span><span style="font-size:.82rem;font-weight:500;color:var(--gray);">Inteligência Artificial</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="solucoes">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Soluções</span>
+      <h2 class="h2">Escolha o caminho<br/>certo para sua empresa</h2>
+      <p class="body-lg">Três caminhos modulares focados em estruturação, habilitação de pessoas e sustentação de crescimento contínuo.</p>
+    </div>
+
+    <div class="solucoes-container">
+
+      <!-- MÓDULO 01 - FUNDAMENTO -->
+      <div class="solucao-section-card reveal" id="sol-fundamento">
+        <div class="solucao-header-grid">
+          <div>
+            <span class="solucao-badge-main">Módulo 01</span>
+            <h3 class="solucao-block-name">Fundamento</h3>
+            <p class="solucao-block-desc">Estruture sua operação comercial para crescer com previsibilidade.</p>
+            <p class="body-sm" style="margin-bottom: 24px; color: var(--gray);">
+              O Fundamento é a etapa de estruturação da operação comercial. Foi desenvolvido para empresas que enfrentam desafios relacionados à falta de processos, baixa previsibilidade de vendas, dependência de profissionais específicos, ausência de indicadores claros e utilização inadequada de sistemas de CRM. O objetivo desta solução é construir uma base comercial sólida, documentada e preparada para crescimento sustentável.
+            </p>
+          </div>
+          <div>
+            <div class="solucao-quick-specs">
+              <div>
+                <div class="spec-item-title">Duração</div>
+                <div class="spec-item-value">5 semanas</div>
+              </div>
+              <div>
+                <div class="spec-item-title">Investimento</div>
+                <div class="spec-item-value">R$ 5.500,00</div>
+              </div>
+            </div>
+            <div class="solucao-actions-row">
+              <button class="btn btn-outline-gold" onclick="toggleDetails('details-fundamento', this)" style="width: 100%; justify-content: center;">
+                <span>Saber o detalhe do módulo</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="transition: transform var(--transition);"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="solucao-details-drawer" id="details-fundamento">
+          <div class="drawer-grid">
+            <div class="drawer-sidebar">
+              <h4 class="label">Dinâmica e Formato</h4>
+              <ul class="drawer-list">
+                <li><strong>Cronograma:</strong> 5 semanas de co-criação ativa.</li>
+                <li><strong>Acompanhamento incluso:</strong>
+                  <ul class="drawer-sub-bullets">
+                    <li>Encontros semanais de alinhamento</li>
+                    <li>Entrevistas individuais com o time</li>
+                    <li>Workshops práticos de construção</li>
+                    <li>Levantamento documental profundo</li>
+                    <li>Análise operacional de ponta a ponta</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="drawer-content-flow">
+              <h4 class="label">Escopo das Entregas</h4>
+              <ul class="drawer-list">
+                <li>
+                  <span class="drawer-list-title">Diagnóstico Comercial</span>
+                  <span class="drawer-list-desc">Avaliação completa do cenário atual: estrutura organizacional, processos, modelos de prospecção/qualificação, funil e ferramentas vigentes.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Mapeamento de Processos (AS IS)</span>
+                  <span class="drawer-list-desc">Levantamento e diagramação de todos os fluxos reais de venda, localizando lacunas operacionais, duplicidade de tarefas e gargalos de pipeline.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Modelagem de Processos (TO BE)</span>
+                  <span class="drawer-list-desc">Novo fluxo comercial desenhado sob medida para eficiência, especificando as regras de passagem de lead e as governanças operacionais.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Estrutura Comercial & Playbook</span>
+                  <span class="drawer-list-desc">Construção do ICP, jornada do comprador, pipeline de vendas, metas, KPIs, SLAs e compilação do Playbook Oficial do Processo.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Estruturação Tecnológica no CRM</span>
+                  <span class="drawer-list-desc">Definição da arquitetura operacional para o CRM: mapeamento de campos obrigatórios, automações sugeridas e especificação de dashboards gerenciais. *(Licenciamento e implantação do CRM não inclusos).*</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 02 - PERFORMANCE -->
+      <div class="solucao-section-card reveal" id="sol-performance">
+        <div class="solucao-header-grid">
+          <div>
+            <span class="solucao-badge-main">Solução 02</span>
+            <h3 class="solucao-block-name">Performance</h3>
+            <p class="solucao-block-desc">Treinamento e Capacitação para Times de Vendas e Lideranças Comerciais</p>
+            <p class="body-sm" style="margin-bottom: 24px; color: var(--gray);">
+              O Performance é uma solução de treinamento comercial desenvolvida para empresas que desejam capacitar vendedores, SDRs, executivos de vendas, gestores e líderes comerciais. O objetivo é desenvolver competências, técnicas e metodologias de vendas que aumentem a performance da equipe, melhorem a qualidade das negociações e fortaleçam a capacidade de conversão comercial. Através de treinamentos práticos, workshops executivos e aulas ao vivo, capacitamos profissionais para atuar de forma mais estratégica, consultiva e orientada a resultados. A solução pode ser contratada de forma independente e não depende da contratação de qualquer outra solução do Método Evolutiva®.
+            </p>
+          </div>
+          <div>
+            <div class="solucao-quick-specs">
+              <div>
+                <div class="spec-item-title">Duração</div>
+                <div class="spec-item-value">5 semanas</div>
+              </div>
+              <div>
+                <div class="spec-item-title">Investimento</div>
+                <div class="spec-item-value">R$ 4.850,00</div>
+              </div>
+            </div>
+            <div class="solucao-actions-row">
+              <button class="btn btn-outline-gold" onclick="toggleDetails('details-performance', this)" style="width: 100%; justify-content: center;">
+                <span>Saber o detalhe do módulo</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="transition: transform var(--transition);"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="solucao-details-drawer" id="details-performance">
+          <div class="drawer-grid">
+            <div class="drawer-sidebar">
+              <h4 class="label" style="margin-bottom: 16px;">Dinâmica de Capacitação</h4>
+              <ul class="drawer-list" style="margin-bottom: 24px;">
+                <li>
+                  <strong>Formato de Entrega</strong>
+                  <ul class="drawer-sub-bullets">
+                    <li>5 semanas de desenvolvimento</li>
+                    <li>2 encontros ao vivo por semana</li>
+                    <li>Treinamentos práticos</li>
+                    <li>Workshops executivos</li>
+                    <li>Exercícios aplicados</li>
+                    <li>Simulações de vendas</li>
+                    <li>Roleplays</li>
+                    <li>Estudos de caso</li>
+                    <li>Mentorias para líderes comerciais</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Modalidades</strong>
+                  <ul class="drawer-sub-bullets">
+                    <li>Online ao vivo</li>
+                    <li>Workshops executivos</li>
+                    <li>Treinamentos corporativos</li>
+                    <li>Programas de capacitação comercial</li>
+                    <li>Eventos In Company</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="drawer-content-flow">
+              <h4 class="label">Escopo das Entregas</h4>
+              <ul class="drawer-list">
+                <li>
+                  <span class="drawer-list-title">Metodologias de Vendas</span>
+                  <span class="drawer-list-desc">Capacitação baseada em metodologias reconhecidas e aplicadas às necessidades da empresa.</span>
+                  <ul class="drawer-sub-bullets">
+                    <li>Challenger Sale (Vendas Complexas)</li>
+                    <li>SPIN Selling</li>
+                    <li>Técnicas Proprietárias do Método Evolutiva®</li>
+                    <li>Jornada de Vendas sob a ótica do comprador</li>
+                  </ul>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Capacitação da Equipe Comercial</span>
+                  <span class="drawer-list-desc">Desenvolvimento das competências essenciais para vendas consultivas e negociações de maior valor.</span>
+                  <ul class="drawer-sub-bullets">
+                    <li>Prospecção</li>
+                    <li>Qualificação de oportunidades</li>
+                    <li>Descoberta de necessidades</li>
+                    <li>Diagnóstico comercial</li>
+                    <li>Gestão de objeções</li>
+                    <li>Negociação</li>
+                    <li>Fechamento</li>
+                    <li>Follow-up</li>
+                    <li>Pós-venda</li>
+                  </ul>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Desenvolvimento de Lideranças Comerciais</span>
+                  <span class="drawer-list-desc">Capacitação voltada para coordenadores, supervisores e gestores comerciais.</span>
+                  <ul class="drawer-sub-bullets">
+                    <li>Gestão de equipes</li>
+                    <li>Gestão de indicadores</li>
+                    <li>Reuniões de performance</li>
+                    <li>Desenvolvimento de vendedores</li>
+                    <li>Feedback estruturado</li>
+                    <li>Cultura comercial orientada a resultados</li>
+                  </ul>
+                </li>
+                <li>
+                  <span class="drawer-list-title">Playbook Comercial</span>
+                  <span class="drawer-list-desc">Construção ou atualização do Playbook Comercial da empresa.</span>
+                  <ul class="drawer-sub-bullets">
+                    <li>Metodologia de vendas</li>
+                    <li>Fluxo comercial</li>
+                    <li>Boas práticas</li>
+                    <li>Perguntas de diagnóstico</li>
+                    <li>Scripts de abordagem</li>
+                    <li>Diretrizes operacionais</li>
+                  </ul>
+                </li>
+              </ul>
+
+              <div style="margin-top: 16px; padding: 20px; background: rgba(212,166,74,.05); border-left: 2px solid var(--gold); border-radius: 0 8px 8px 0;">
+                <span class="label" style="font-size: 0.65rem;">Resultado Esperado</span>
+                <p class="body-sm" style="color: var(--white); margin-top: 6px; font-weight: 500;">
+                  Uma equipe comercial mais preparada, líderes mais capacitados e uma metodologia de vendas padronizada para aumentar a consistência dos resultados comerciais.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÓDULO 03 - EVOLUÇÃO -->
+      <div class="solucao-section-card featured-block reveal" id="sol-evolucao">
+        <div class="solucao-header-grid">
+          <div>
+            <span class="solucao-badge" style="color: var(--white);">Módulo 03</span>
+            <h3 class="solucao-block-name" style="color: var(--gold);">Evolução</h3>
+            <p class="solucao-block-desc">A extensão do Método Evolutiva®</p>
+            <p class="body-sm" style="margin-bottom: 24px; color: var(--gray);">
+              O Evolutiva Evolução é um programa de acompanhamento contínuo criado para empresas que já passaram por uma das etapas do Método Evolutiva® e desejam manter a evolução da sua operação comercial ao longo do tempo. Após a estruturação da operação através do Evolutiva Fundamento ou após o desenvolvimento da equipe através do Evolutiva Performance, muitas empresas precisam de apoio contínuo para garantir que os processos sejam executados corretamente, que a equipe continue evoluindo e que novas melhorias sejam implementadas de forma constante. É exatamente esse o papel do Evolutiva Evolução. Não é uma nova implantação ou um novo projeto: é a continuidade estratégica do trabalho já realizado.
+            </p>
+          </div>
+          <div>
+            <div class="solucao-quick-specs" style="background: rgba(212,166,74,.05); border-color: rgba(212,166,74,.15);">
+              <div>
+                <div class="spec-item-title">Como funciona</div>
+                <div class="spec-item-value" style="font-size: 1rem;">Acompanhamento Recorrente</div>
+              </div>
+              <div>
+                <div class="spec-item-title">Investimento</div>
+                <div class="spec-item-value" style="font-size: 1.15rem; color: var(--gold);">R$ 2.500,00 <span style="font-size: 0.8rem; font-weight: 400; color: var(--gray);">/ mês</span></div>
+              </div>
+            </div>
+            <div class="solucao-actions-row">
+              <button class="btn btn-primary" onclick="toggleDetails('details-evolucao', this)" style="width: 100%; justify-content: center;">
+                <span>Saber o detalhe do módulo</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="transition: transform var(--transition);"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="solucao-details-drawer" id="details-evolucao">
+          <div class="drawer-grid">
+            <div class="drawer-sidebar">
+              <h4 class="label" style="margin-bottom: 12px;">Quando contratar o Evolutiva Evolução?</h4>
+              <ul class="drawer-list" style="margin-bottom: 24px;">
+                <li>
+                  <span class="drawer-list-title" style="color: var(--gold);">Após o Evolutiva Fundamento</span>
+                  <div class="drawer-list-desc">
+                    <ul class="drawer-sub-bullets">
+                      <li>Garantir a aplicação dos processos desenhados</li>
+                      <li>Validar a utilização ativa do CRM</li>
+                      <li>Ajustar fluxos operacionais no dia a dia</li>
+                      <li>Evoluir indicadores e métricas chave</li>
+                      <li>Corrigir desvios de execução da equipe</li>
+                      <li>Aprimorar o playbook comercial</li>
+                    </ul>
+                  </div>
+                </li>
+                <li style="margin-top: 12px;">
+                  <span class="drawer-list-title" style="color: var(--gold);">Após o Evolutiva Performance</span>
+                  <div class="drawer-list-desc">
+                    <ul class="drawer-sub-bullets">
+                      <li>Desenvolver continuamente os vendedores</li>
+                      <li>Realizar reciclagens periódicas e andragógicas</li>
+                      <li>Acompanhar indicadores práticos de desempenho</li>
+                      <li>Desenvolver a liderança e gestores comerciais</li>
+                      <li>Fortalecer e solidificar a cultura comercial</li>
+                      <li>Melhorar a execução técnica da metodologia</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+              
+              <div>
+                <h4 class="label" style="margin-bottom: 8px;">Dinâmica</h4>
+                <p class="body-sm" style="color: var(--white); font-weight: 500;">Acompanhamento de rotinas mensal recorrente com encontros semanais. Atuação técnica, estratégica e operacional direta na empresa.</p>
+              </div>
+            </div>
+
+            <div class="drawer-content-flow">
+              <h4 class="label">O que está incluído</h4>
+              <ul class="drawer-list">
+                <li>
+                  <span class="drawer-list-title">1. Reuniões Semanais de Acompanhamento</span>
+                  <span class="drawer-list-desc">Encontros recorrentes para acompanhamento da evolução da operação comercial. Inclui a revisão de resultados operacionais, acompanhamento de indicadores chave, análise técnica de pipeline, gargalos de conversão e definição de planos de ação táticos.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">2. Aprimoramento de Processos</span>
+                  <span class="drawer-list-desc">Evolução contínua da sua estrutura e do seu fluxo de vendas. Realizamos ajustes de fluxos práticos, implementação de melhorias operacionais, revisão periódica das etapas de passagens do funil, atualizações constantes do playbook de vendas e incorporação de novas boas práticas comerciais.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">3. Desenvolvimento Contínuo da Equipe</span>
+                  <span class="drawer-list-desc">Capacitações sob medida de acordo com a necessidade diagnosticada na operação. Oferecemos reciclagens técnicas de vendas, treinamentos altamente direcionados a contorno de objeções, desenvolvimento individual de vendedores e capacitação direta do gestor comercial.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">4. Acompanhamento do CRM</span>
+                  <span class="drawer-list-desc">Garantia absoluta de aderência da operação do pipeline ao CRM. Realizamos auditorias periódicas e revisões de utilização da ferramenta, ajustes finos de processos cadastrados, revisão de indicadores digitais e sugestões de melhorias de interface.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title">5. Inteligência Comercial</span>
+                  <span class="drawer-list-desc">Análise profunda e contínua do comportamento operacional da operação. Inclui a análise avançada de performance da equipe comercial, identificação ativa de novas oportunidades de mercado, benchmarking e recomendações estratégicas de evolução.</span>
+                </li>
+                <li>
+                  <span class="drawer-list-title" style="color: var(--gold);">6. Inteligência Artificial Aplicada</span>
+                  <span class="drawer-list-desc">Identificação e implementação de oportunidades e ferramentas de IA para acelerar a produtividade do time. Inclui o mapeamento de oportunidades, estruturação de automações, IA para suporte de atendimento, qualificação, follow-up automatizado de CRM e assistentes internos.</span>
+                </li>
+              </ul>
+
+              <div style="margin-top: 16px; padding: 20px; background: rgba(212,166,74,.05); border-left: 2px solid var(--gold); border-radius: 0 8px 8px 0;">
+                <span class="label" style="font-size: 0.65rem;">Resultado Esperado</span>
+                <p class="body-sm" style="color: var(--white); margin-top: 6px; font-weight: 500;">
+                  Garantir que a operação comercial continue evoluindo após a conclusão do projeto inicial, mantendo processos atualizados, equipes capacitadas, indicadores acompanhados e tecnologia alinhada aos objetivos da empresa.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="ia" style="background:radial-gradient(ellipse at 60% 50%, rgba(212,166,74,.05) 0%, transparent 60%);">
+  <div class="container">
+    <div class="ia-grid">
+      <div>
+        <span class="label reveal" style="display:block;margin-bottom:16px;">Evolutiva IA</span>
+        <h2 class="h2 reveal">Inteligência Artificial aplicada à operação comercial.</h2>
+        <p class="body-lg reveal" style="margin-top:20px;">
+          A IA não é um product isolado. É o acelerador que potencializa o método — automatizando tarefas repetitivas, gerando inteligência em tempo real e liberando sua equipe para o que realmente importa: vender.
+        </p>
+        <div class="ia-tags reveal">
+          <span class="ia-tag">Atendimento automatizado</span>
+          <span class="ia-tag">Qualificação de leads</span>
+          <span class="ia-tag">Pré-vendas com IA</span>
+          <span class="ia-tag">Follow-up inteligente</span>
+          <span class="ia-tag">CRM com IA</span>
+          <span class="ia-tag">Relatórios automáticos</span>
+          <span class="ia-tag">Conhecimento Corporativo</span>
+          <span class="ia-tag">Assistente Comercial</span>
+        </div>
+        <div style="padding:24px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:var(--radius);margin-top:8px;" class="reveal">
+          <div class="label" style="margin-bottom:10px;">Importante</div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.75);line-height:1.65;">A tecnologia é consequência do processo. Primeiro estruturamos a operação. Depois a inteligência artificial a sustenta e acelera.</p>
+        </div>
+        <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20entender%20como%20a%20IA%20se%20aplica%20ao%20M%C3%A9todo%20Evolutiva." target="_blank" class="btn btn-primary" style="margin-top:24px;">Falar com Especialista</a>
+      </div>
+
+      <div class="ia-visual reveal">
+        <div class="ia-card-anim ia-card-1">
+          <div class="ia-card-dot" style="background:#4ade80;"></div>
+          <span>Qualificação Automática via WhatsApp</span>
+        </div>
+        <div class="ia-card-anim ia-card-2">
+          <div class="ia-card-dot" style="background:var(--gold);"></div>
+          <span>Geração de Scripts Personalizados</span>
+        </div>
+        <div class="ia-card-anim ia-card-3">
+          <div class="ia-card-dot" style="background:#60a5fa;"></div>
+          <span>Mapeamento de ICP Avançado</span>
+        </div>
+        <div class="ia-card-anim ia-card-4">
+          <div class="ia-card-dot" style="background:#f43f5e;"></div>
+          <span>Análise de Sentimento de Leads</span>
+        </div>
+        <div class="ia-card-anim ia-card-5" style="border-color:var(--border-gold); background:rgba(10,10,10,0.9);">
+          <div class="ia-card-dot" style="background:var(--gold);box-shadow:0 0 10px var(--gold);"></div>
+          <strong style="color:var(--white);">Evolutiva Core IA</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="tecnologia">
+  <div class="container">
+    <div class="tech-grid">
+      <div>
+        <span class="label reveal" style="display:block;margin-bottom:16px;">Tecnologia & Sustentação</span>
+        <h2 class="h2 reveal">O motor tecnológico da sua<br/>operação comercial: Bitrix24</h2>
+        <p class="body-lg reveal" style="margin-top:20px;">
+          O CRM não deve ditar como você vende, mas sim registrar e automatizar o seu método. Estruturamos a plataforma mais completa do mercado para refletir com exatidão o seu novo processo comercial.
+        </p>
+
+        <div class="tech-steps reveal" style="margin-top:40px;">
+          <div class="tech-step">
+            <div class="tech-step-num">1</div>
+            <div>
+              <div class="tech-step-title">Arquitetura de Dados</div>
+              <div class="tech-step-desc">Mapeamos e criamos campos personalizados, funis inteligentes e segmentações no Bitrix24 com foco em usabilidade.</div>
+            </div>
+          </div>
+          <div class="tech-step">
+            <div class="tech-step-num">2</div>
+            <div>
+              <div class="tech-step-title">Hiperautomação de Tarefas</div>
+              <div class="tech-step-desc">Eliminamos o trabalho manual do seu time. Robôs criam tarefas automáticas, alertam atrasos e disparam alertas de acompanhamento.</div>
+            </div>
+          </div>
+          <div class="tech-step">
+            <div class="tech-step-num">3</div>
+            <div>
+              <div class="tech-step-title">Dashboards Gerenciais</div>
+              <div class="tech-step-desc">Criamos relatórios analíticos em tempo real sobre a produtividade do time, gargalos de conversão e metas.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card reveal" style="border-color: rgba(47, 198, 246, 0.2); background: linear-gradient(135deg, rgba(47, 198, 246, 0.05) 0%, rgba(0, 0, 0, 0.9) 100%); padding: 40px; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(47,198,246,0.15) 0%, transparent 70%); pointer-events: none;"></div>
+          
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(47, 198, 246, 0.15); border: 1px solid rgba(47, 198, 246, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔵</div>
+            <div>
+              <div class="tech-step-title" style="margin-bottom:0;">Implementação Homologada</div>
+              <div class="tech-step-desc" style="font-size:11px;">Expertise Técnica Premium</div>
+            </div>
+          </div>
+          
+          <p class="body-sm" style="margin-bottom: 24px; line-height: 1.6;">
+            Não fazemos apenas parametrização básica. Desenvolvemos fluxos robustos e integrações personalizadas de telefonia, e-mail e WhatsApp para garantir que a sua equipe tenha o máximo de produtividade dentro da ferramenta.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+              <span style="color: var(--gray); font-weight: 500;">Mapeamento Tecnológico</span>
+              <span style="color: #2fc6f6; font-weight: 700;">100% Personalizado</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <div style="flex: 1; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 6px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+                <div style="font-size: 0.65rem; color: var(--gold); font-weight: 600;">Bitrix24</div>
+                <div style="font-size: 0.6rem; color: var(--gray); margin-top: 2px;">Foco Principal</div>
+              </div>
+              <div style="flex: 1; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 6px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+                <div style="font-size: 0.65rem; color: var(--white); font-weight: 600;">Outros CRMs</div>
+                <div style="font-size: 0.6rem; color: var(--gray); margin-top: 2px;">Aderência Metódica</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="resultados" style="background:radial-gradient(ellipse at 40% 50%, rgba(212,166,74,.04) 0%, transparent 70%);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Resultados Esperados</span>
+      <h2 class="h2">O que muda na sua operação</h2>
+      <p class="body-lg">Com o Método Evolutiva® implementado, sua operação comercial passa a operar em outro nível.</p>
+    </div>
+    <div class="results-grid">
+      <div class="result-card reveal">
+        <div class="result-icon">🎯</div>
+        <div class="result-title">Mais Previsibilidade</div>
+        <div class="result-desc">Saiba antecipadamente o que vai acontecer no mês. Pipeline confiável e ciclos de venda previsíveis.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">⚡</div>
+        <div class="result-title">Mais Produtividade</div>
+        <div class="result-desc">Equipe com menos desperdício de tempo. Processos claros, automações ativas e foco no que converte.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">📈</div>
+        <div class="result-title">Mais Conversão</div>
+        <div class="result-desc">Funil sem vazamentos. Abordagem padronizada e follow-up consistente em todas as etapas.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">🎛️</div>
+        <div class="result-title">Mais Controle</div>
+        <div class="result-desc">Visibilidade real sobre cada etapa da operação. Dados confiáveis para decisões assertivas.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">🏛️</div>
+        <div class="result-title">Mais Governança</div>
+        <div class="result-desc">Processos documentados, playbook ativo e rastreabilidade completa de todas as atividades.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">📐</div>
+        <div class="result-title">Mais Escala</div>
+        <div class="result-desc">Operação que cresce sem depender de pessoas-chave. Método replicável e onboarding ágil.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">🧠</div>
+        <div class="result-title">Mais Inteligência</div>
+        <div class="result-desc">IA e dados gerando insights em tempo real. Decisões baseadas em dados consolidados.</div>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-icon">🤝</div>
+        <div class="result-title">Fidelização Prática</div>
+        <div class="result-desc">Transição qualificada para o pós-venda que melhora o onboarding de novos clientes e aumenta o LTV.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="whom">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Para Quem É</span>
+      <h2 class="h2">Feito para empresas B2B<br/>que querem crescer com método</h2>
+      <p class="body-lg">Atendemos operações comerciais de 3 a 50 vendedores em diferentes segmentos e estágios de maturidade.</p>
+    </div>
+    <div class="whom-grid">
+      <div class="whom-card reveal">
+        <div class="whom-icon">🏭</div>
+        <div>
+          <div class="whom-title">Indústrias</div>
+          <div class="whom-desc">Operações com equipes comerciais próprias ou representantes que precisam de processo e governança.</div>
+        </div>
+      </div>
+      <div class="whom-card reveal">
+        <div class="whom-icon">⚙️</div>
+        <div>
+          <div class="whom-title">Empresas de Serviços</div>
+          <div class="whom-desc">Consultorias, agências, escritórios e prestadores de serviço B2B que dependem de relacionamento e método.</div>
+        </div>
+      </div>
+      <div class="whom-card reveal">
+        <div class="whom-icon">💻</div>
+        <div>
+          <div class="whom-title">Empresas de Tecnologia</div>
+          <div class="whom-desc">SaaS e tech companies que dominam o produto mas precisam estruturar a operação de vendas.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;padding:32px 40px;background:var(--surface);border:1px solid var(--border-gold);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;" class="reveal">
+      <div>
+        <div class="label" style="margin-bottom:8px;">Critério ideal</div>
+        <p style="font-size:.95rem;font-weight:500;color:var(--white);">Empresas B2B com equipes comerciais de 3 a 50 vendedores que desejam estruturar, capacitar e evoluir sua operação.</p>
+      </div>
+      <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20comercial%20do%20M%C3%A9todo%20Evolutiva." target="_blank" class="btn btn-primary" style="white-space:nowrap;">Solicitar Diagnóstico</a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="criador" style="background: radial-gradient(circle at 10% 30%, rgba(212,166,74,.03) 0%, transparent 60%);">
+  <div class="container">
+    <div class="creator-grid">
+      <div class="reveal">
+        <span class="label" style="display:block; margin-bottom:16px;">Liderança Técnica</span>
+        <h2 class="h2" style="margin-bottom:8px; color: var(--gold); font-weight: 800;">Nelly Miranda</h2>
+        <h3 class="h3" style="color: var(--gray); margin-bottom: 24px; font-weight: 500; font-size: 1.2rem;">O Criador do Método Evolutiva®</h3>
+        
+        <p class="body-lg" style="font-weight: 700; color: var(--white); line-height: 1.7; margin-bottom: 20px; font-size: 1.05rem;">
+          Com mais de 20 anos de experiência em vendas, gestão e tecnologia, Nelly Miranda é co-fundador da Traevo e o arquiteto por trás do Método Evolutiva®. Sua trajetória é marcada pela estruturação de operações comerciais complexas, transformando processos analógicos em sistemas previsíveis de crescimento B2B.
+        </p>
+        
+        <p class="body-sm" style="line-height:1.75; margin-bottom:16px; color: var(--gray);">
+          Ao longo de sua carreira, ocupou posições estratégicas em grandes empresas de tecnologia e ERP no Brasil. Como especialista em modelagem de processos e analista de formação, desenvolveu uma habilidade única de conectar estratégia comercial, metodologia de vendas e ferramentas de CRM para eliminar gargalos e a dependência de talentos individuais.
+        </p>
+        <p class="body-sm" style="line-height:1.75; color: var(--gray);">
+          Hoje atua como mentor e palestrante, tendo liderado a transformação comercial de dezenas de empresas de diversos segmentos. O Método Evolutiva® consolida essa bagagem prática de mercado com a necessidade de unificar estratégia, processos, capacitação de pessoas, tecnologia e inteligência artificial em uma única jornada contínua de evolução.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px;">
+          <h4 class="label" style="margin-bottom:16px;">Especialidades</h4>
+          <ul class="specialty-list">
+            <li class="specialty-item">Estruturação Comercial e Processos de Vendas</li>
+            <li class="specialty-item">Desenvolvimento de Equipes Comerciais</li>
+            <li class="specialty-item">Liderança e Gestão de Performance</li>
+            <li class="specialty-item">CRM e Transformação Digital</li>
+            <li class="specialty-item">Modelagem e Melhoria de Processos</li>
+            <li class="specialty-item">Inteligência Artificial aplicada ao Comercial</li>
+            <li class="specialty-item">Playbooks e Metodologias de Vendas</li>
+            <li class="specialty-item">Governança Comercial e Indicadores</li>
+          </ul>
+        </div>
+
+        <div class="philosophy-quote reveal" style="margin-top: 32px;">
+          <div class="philosophy-quote-symbol">“</div>
+          <span class="label" style="font-size:0.65rem; margin-bottom:8px; display:block;">Filosofia de Atuação</span>
+          <p class="body-sm" style="font-style: italic; color: var(--white); font-weight:500; line-height: 1.6;">
+            "Acredito que empresas não crescem apenas porque possuem bons vendedores. Elas crescem quando possuem processos claros, pessoas capacitadas, tecnologia adequada e uma cultura orientada à evolução contínua."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Perguntas Frequentes</span>
+      <h2 class="h2">Dúvidas comuns</h2>
+    </div>
+    <div class="faq-list">
+      <!-- Pergunta 1 -->
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>O Método Evolutiva® é uma consultoria comercial?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p style="font-weight: 600; color: var(--gold); margin-bottom: 6px;">Sim.</p>
+          <p>O Método Evolutiva® é uma consultoria comercial estruturada através de uma metodologia proprietária desenvolvida para empresas B2B.</p>
+          <p style="margin-top: 8px;">Diferente das consultorias tradicionais, que normalmente entregam análises e recomendações, nosso trabalho combina diagnóstico, modelagem de processos, documentação, capacitação, tecnologia e acompanhamento da execução.</p>
+          <p style="margin-top: 8px;">Nosso objetivo não é apenas indicar o caminho, mas ajudar sua empresa a construir uma operação comercial mais previsível, organizada e preparada para crescer.</p>
+        </div>
+      </div>
+
+      <!-- Pergunta 2 -->
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Qual a diferença entre o Método Evolutiva® e um treinamento de vendas?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Os treinamentos fazem parte da metodologia, mas representam apenas uma etapa da transformação.</p>
+          <p style="margin-top: 8px;">Além de desenvolver vendedores e líderes comerciais, o Método Evolutiva® atua na estruturação completa da operação comercial. Isso inclui:</p>
+          <ul style="margin: 12px 0 12px 20px; display: flex; flex-direction: column; gap: 6px; list-style-type: disc; color: var(--gray);">
+            <li>Diagnóstico da operação atual</li>
+            <li>Mapeamento e modelagem de processos</li>
+            <li>Construção de playbooks</li>
+            <li>Definição de indicadores</li>
+            <li>Estruturação de CRM</li>
+            <li>Capacitação de equipes</li>
+            <li>Desenvolvimento de lideranças</li>
+            <li>Inteligência Artificial aplicada ao comercial</li>
+            <li>Acompanhamento contínuo</li>
+          </ul>
+          <p>Nosso foco não é apenas melhorar habilidades individuais, mas criar uma operação comercial capaz de gerar resultados de forma consistente.</p>
+        </div>
+      </div>
+
+      <!-- Pergunta 3 -->
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Minha empresa já possui CRM. O Método Evolutiva® ainda faz sentido?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p style="font-weight: 600; color: var(--gold); margin-bottom: 6px;">Sim.</p>
+          <p>Na maioria das empresas o desafio não está na ferramenta, mas na ausência de processos, indicadores e padrões de utilização.</p>
+          <p style="margin-top: 8px;">O Método Evolutiva® ajuda a transformar o CRM em um instrumento estratégico de gestão comercial, garantindo que a tecnologia esteja alinhada aos processos e objetivos da empresa.</p>
+        </div>
+      </div>
+
+      <!-- Pergunta 4 -->
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Vocês implantam CRM?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p style="font-weight: 600; color: var(--gold); margin-bottom: 6px;">Sim.</p>
+          <p>A Traevo é especialista em estruturação de operações comerciais sustentadas por tecnologia e atua como parceira oficial do Bitrix24, uma das plataformas de gestão empresarial e CRM mais completas do mercado.</p>
+          <p style="margin-top: 8px;">Durante o programa, avaliamos a realidade da empresa e definimos a melhor estratégia tecnológica para suportar os processos comerciais. Embora tenhamos forte especialização em Bitrix24, nossa metodologia pode ser aplicada e sustentada em outras plataformas de CRM quando necessário.</p>
+          <p style="margin-top: 12px; font-weight: 600; color: var(--white);">Nosso princípio é simples:</p>
+          <p style="font-style: italic; color: var(--gray);">Primeiro estruturamos a operação.<br>Depois utilizamos a tecnologia adequada para sustentar o crescimento.</p>
+        </div>
+      </div>
+
+      <!-- Pergunta 5 -->
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>O Bitrix24 é obrigatório para participar do Método Evolutiva®?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p style="font-weight: 600; color: var(--gold); margin-bottom: 6px;">Não.</p>
+          <p>O Método Evolutiva® é uma metodologia comercial e não está vinculado exclusivamente a uma ferramenta.</p>
+          <p style="margin-top: 8px;">Apesar de recomendarmos frequentemente o Bitrix24 pela sua capacidade de integrar CRM, automação, comunicação, processos e inteligência artificial em uma única plataforma, o método pode ser aplicado em outros CRMs já utilizados pela empresa.</p>
+          <p style="margin-top: 8px;">A tecnologia é uma consequência da estratégia e dos processos definidos durante o programa.</p>
+        </div>
+      </div>
+
+      <!-- Pergunta 6 -->
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Por que o Método Evolutiva® dá tanta importância ao CRM?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <p>Empresas que crescem de forma sustentável precisam transformar conhecimento em processo e processo em dados.</p>
+          <p style="margin-top: 8px;">O CRM é o principal instrumento para garantir previsibilidade, rastreabilidade, gestão de indicadores e evolução contínua da operação comercial. Quando corretamente estruturado, ele deixa de ser apenas um sistema e passa a ser o centro de inteligência da operação.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="cta-final">
+  <div class="container">
+    <div class="cta-badge reveal">
+      <div class="hero-badge-dot"></div>
+      <span class="label" style="font-size:.7rem;">Próximo passo</span>
+    </div>
+    <h2 class="h2 cta-title reveal">Sua empresa está pronta<br/>para <span style="color:var(--gold);">evoluir?</span></h2>
+    <p class="body-lg cta-sub reveal">Solicite um diagnóstico e descubra os gargalos que limitam o crescimento da sua operação comercial. Sem compromisso, sem pitch de venda.</p>
+    <div class="cta-actions reveal">
+      <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20o%20Diagn%C3%B3stico%20Comercial%20do%20M%C3%A9todo%20Evolutiva." target="_blank" class="btn btn-primary" style="font-size:1rem;padding:16px 36px;">
+        Solicitar Diagnóstico Comercial
+        <svg width="18" height="18" fill="none" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://wa.me/5561995981809?text=Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20um%20especialista." target="_blank" class="btn btn-ghost" style="font-size:1rem;padding:16px 36px;">Falar com um Especialista</a>
+    </div>
+    <p class="cta-note reveal">Diagnóstico gratuito · Sem pressão · Resposta rápida pelo WhatsApp</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-main">MÉTODO <span>EVOLUTIVA</span>®</div>
+          <div class="footer-logo-by">by Traevo</div>
+        </div>
+        <p class="footer-tagline">Estruture. Capacite. Evolua.<br/>Estratégia, Processos, Capacitação e Inteligência Comercial para empresas B2B.</p>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+          <a href="#" style="width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:var(--transition);" onmouseover="this.style.borderColor='var(--border-gold)'" onmouseout="this.style.borderColor='var(--border)'">in</a>
+          <a href="#" style="width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:var(--transition);" onmouseover="this.style.borderColor='var(--border-gold)'" onmouseout="this.style.borderColor='var(--border)'">ig</a>
+          <a href="#" style="width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:var(--transition);" onmouseover="this.style.borderColor='var(--border-gold)'" onmouseout="this.style.borderColor='var(--border)'">yt</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Método</div>
+        <ul class="footer-links">
+          <li><a href="#metodo">O Método</a></li>
+          <li><a href="#sol-fundamento">Fundamento</a></li>
+          <li><a href="#sol-performance">Performance</a></li>
+          <li><a href="#sol-evolucao">Evolução</a></li>
+          <li><a href="#ia">Evolutiva IA</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Empresa</div>
+        <ul class="footer-links">
+          <li><a href="#">Sobre a Traevo</a></li>
+          <li><a href="#">Casos de Sucesso</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Parceiros</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contato</div>
+        <ul class="footer-links">
+          <li><a href="mailto:contato@traevo.com.br">contato@traevo.com.br</a></li>
+          <li><a href="https://wa.me/5561995981809" target="_blank">WhatsApp</a></li>
+          <li><a href="#cta-final">Solicitar Diagnóstico</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Traevo. Todos os direitos reservados. Método Evolutiva® é uma marca registrada.</div>
+      <div class="footer-legal">
+        <a href="#">Termos de Uso</a>
+        <a href="#">Política de Privacidade</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Scroll Reveal ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = el.closest('.challenges-grid, .results-grid, .whom-grid, .method-flow, .solucoes-container')
+          ? Array.from(el.parentElement.children).indexOf(el) * 80
+          : 0;
+        setTimeout(() => el.classList.add('visible'), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  /* ── FAQ Accordion ── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── Mobile Menu Toggle ── */
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  /* ── Nav Scroll Blur Background ── */
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.background = window.scrollY > 40 ? 'rgba(0,0,0,.95)' : 'rgba(0,0,0,.8)';
+  });
+
+  /* ── Smooth Orbit Node Placement ── */
+  document.querySelectorAll('.visual-orbit').forEach(orbit => {
+    const nodes = orbit.querySelectorAll('.visual-node');
+    nodes.forEach((node, i) => {
+      const angle = (i / nodes.length) * 2 * Math.PI;
+      node.style.top = (50 + Math.sin(angle) * 45) + '%';
+      node.style.left = (50 + Math.cos(angle) * 45) + '%';
+    });
+  });
+
+  /* ── Method Interactive Pillars Highlight Logic ── */
+  function activatePillar(element, targetStepId) {
+    document.querySelectorAll('.interactive-pillar').forEach(item => {
+      item.classList.remove('active');
+    });
+    
+    element.classList.add('active');
+
+    document.querySelectorAll('.method-step-num').forEach(num => {
+      num.classList.remove('active');
+      num.classList.add('inactive');
+    });
+
+    const targetStepNum = document.getElementById(targetStepId);
+    if (targetStepNum) {
+      targetStepNum.classList.remove('inactive');
+      targetStepNum.classList.add('active');
+    }
+  }
+
+  /* ── Toggle Module Details Drawer ── */
+  function toggleDetails(drawerId, buttonElement) {
+    const drawer = document.getElementById(drawerId);
+    const arrow = buttonElement.querySelector('svg');
+    
+    if (drawer) {
+      const isOpen = drawer.classList.contains('open');
+      
+      // Close other drawers for focus
+      document.querySelectorAll('.solucao-details-drawer.open').forEach(openDrawer => {
+        if(openDrawer.id !== drawerId) {
+          openDrawer.classList.remove('open');
+          const otherButton = openDrawer.closest('.solucao-section-card').querySelector('button svg');
+          if(otherButton) otherButton.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      if (isOpen) {
+        drawer.classList.remove('open');
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+      } else {
+        drawer.classList.add('open');
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
+        
+        setTimeout(() => {
+          drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 150);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
